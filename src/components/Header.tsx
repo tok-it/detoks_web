@@ -1,5 +1,6 @@
 import { ExternalLink } from "lucide-react";
 import { LiquidButton } from "./LiquidButton";
+import { ThemeSwitcher, type Theme } from "./ui/apple-liquid-glass-switcher";
 
 const navItems = [
   { label: "소개", href: "#about" },
@@ -7,7 +8,12 @@ const navItems = [
   { label: "사용 예시", href: "#example" },
 ];
 
-export function Header() {
+interface HeaderProps {
+  theme: Theme;
+  onThemeChange: (theme: Theme) => void;
+}
+
+export function Header({ theme, onThemeChange }: HeaderProps) {
   return (
     <header className="fixed left-0 right-0 top-0 z-50 px-4 pt-4">
       <div className="liquid-nav mx-auto flex h-16 max-w-7xl items-center justify-between rounded-full px-4 pl-6">
@@ -32,10 +38,13 @@ export function Header() {
           ))}
         </nav>
 
-        <LiquidButton href="https://github.com" className="h-11 px-5">
-          <ExternalLink className="h-4 w-4" />
-          GitHub
-        </LiquidButton>
+        <div className="flex items-center gap-3">
+          <ThemeSwitcher value={theme} onValueChange={onThemeChange} />
+          <LiquidButton href="https://github.com" className="h-11 px-5">
+            <ExternalLink className="h-4 w-4" />
+            GitHub
+          </LiquidButton>
+        </div>
       </div>
     </header>
   );
