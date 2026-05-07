@@ -1,25 +1,23 @@
-import Navbar from './components/Navbar'
-import Hero from './components/Hero'
-import WhyNeed from './components/WhyNeed'
-import HowItWorks from './components/HowItWorks'
-import QuickStart from './components/QuickStart'
-import TargetUsers from './components/TargetUsers'
-import CTA from './components/CTA'
-import Footer from './components/Footer'
+import { Header } from "./components/Header";
+import { HeroSection } from "./components/HeroSection";
+import { QuickStartSection } from "./components/QuickStartSection";
+import { ExplainSection } from "./components/ExplainSection";
+import { ExampleSection } from "./components/ExampleSection";
+import { FinalCtaSection } from "./components/FinalCtaSection";
 
-export default function App() {
+function App() {
   return (
-    <>
-      <Navbar />
+    <div className="min-h-screen overflow-hidden bg-detoks-bg text-white">
+      <Header />
       <main>
-        <Hero />
-        <WhyNeed />
-        <HowItWorks />
-        <QuickStart />
-        <TargetUsers />
-        <CTA />
+        <HeroSection />
+        <QuickStartSection />
+        <ExplainSection />
+        <ExampleSection />
+        <FinalCtaSection />
       </main>
-      <Footer />
-    </>
-  )
+    </div>
+  );
 }
+
+export default App;
