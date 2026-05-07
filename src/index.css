@@ -87,13 +87,6 @@ img {
   font-weight: 700;
   color: var(--color-white);
   letter-spacing: -0.5px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.navbar-logo span {
-  color: var(--color-green);
 }
 
 .navbar-links {

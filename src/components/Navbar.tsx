@@ -3,7 +3,7 @@ export default function Navbar() {
     <nav className="navbar">
       <div className="navbar-inner">
         <div className="navbar-logo">
-          <span>De</span>Toks
+          <span style={{ color: 'var(--color-green)' }}>De</span><span>Toks</span>
         </div>
         <div className="navbar-links">
           <a href="#quickstart">Quick Start</a>
