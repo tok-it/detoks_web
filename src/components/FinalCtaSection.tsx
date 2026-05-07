@@ -12,12 +12,15 @@ export function FinalCtaSection() {
           </p>
 
           <h2 className="mx-auto max-w-4xl text-4xl font-black leading-tight tracking-[-0.055em] md:text-5xl">
-            긴 요청을 더 명확한 작업 흐름으로 바꿔보세요
+            LLM CLI 작업 흐름을 더 안정적으로
+            <br />
+            정리해보세요
           </h2>
 
-          <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-white/66">
-            DeToks는 AI 코딩 에이전트를 대체하지 않습니다. 에이전트에게 일을 더
-            명확하게 시키기 위한 정리 도구입니다.
+          <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-white/75">
+            Codex, Gemini, Claude를 그대로 사용하되,{" "}
+            <span className="font-bold text-white">DeToks를 앞단에 두어</span> 입력, 세션,
+            컨텍스트, 실행 경계를 더 명확하게 관리할 수 있습니다.
           </p>
 
           <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">

@@ -119,10 +119,10 @@ a {
   background:
     linear-gradient(
       135deg,
-      rgba(255, 255, 255, 0.18),
-      rgba(255, 255, 255, 0.055)
+      rgba(255, 255, 255, 0.20),
+      rgba(255, 255, 255, 0.08)
     ),
-    rgba(255, 255, 255, 0.07);
+    rgba(255, 255, 255, 0.10);
   backdrop-filter: blur(22px) saturate(160%);
   -webkit-backdrop-filter: blur(22px) saturate(160%);
   box-shadow:

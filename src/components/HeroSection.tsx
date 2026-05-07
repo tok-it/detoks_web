@@ -1,19 +1,22 @@
 import { motion } from "framer-motion";
-import { ArrowRight, Sparkles, Terminal, CheckCircle2 } from "lucide-react";
+import { ArrowRight, Terminal, CheckCircle2 } from "lucide-react";
 import { LiquidButton } from "./LiquidButton";
 import { LiquidCard } from "./LiquidCard";
 
 const tasks = [
-  "인증 관련 코드 찾기",
-  "로그인 흐름 분석하기",
-  "중복 검증 로직 수정하기",
-  "테스트 실행하기",
-  "변경 내용 요약하기",
+  "요청을 작업 단위로 분해",
+  "실행 순서 정리",
+  "필요한 컨텍스트만 유지",
+  "CLI 어댑터로 전달",
+  "결과를 세션에 저장",
 ];
 
 export function HeroSection() {
   return (
-    <section id="hero" className="relative h-screen overflow-hidden px-5 pb-8 pt-24 md:px-8 md:pt-28">
+    <section
+      id="hero"
+      className="relative h-screen overflow-hidden px-5 pb-8 pt-24 md:px-8 md:pt-28"
+    >
       <div className="detoks-grid absolute inset-0 opacity-70" />
 
       <div className="absolute left-1/2 top-20 h-[420px] w-[420px] -translate-x-1/2 rounded-full bg-[#00c853]/20 blur-[90px]" />
@@ -22,16 +25,6 @@ export function HeroSection() {
 
       <div className="relative z-10 mx-auto max-w-7xl">
         <div className="mx-auto max-w-5xl text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.55 }}
-            className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#00c853]/30 bg-[#00c853]/10 px-4 py-2 text-sm font-bold text-[#00c853] backdrop-blur-xl"
-          >
-            <Sparkles className="h-4 w-4" />
-            AI Coding Agent Helper
-          </motion.div>
-
           <motion.h1
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
@@ -49,10 +42,11 @@ export function HeroSection() {
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.65, delay: 0.12 }}
-            className="mx-auto mt-5 max-w-3xl text-base font-medium leading-7 text-white/68 md:text-lg"
+            className="mx-auto mt-5 max-w-3xl text-base font-medium leading-7 text-white/76 md:text-lg"
           >
-            DeToks는 긴 개발 요청을 정리해서 Codex, Claude, Gemini 같은 AI 코딩
-            에이전트가 더 안정적으로 이해하고 실행할 수 있도록 도와주는 CLI 도구입니다.
+            DeToks는 Codex, Gemini, Claude 같은 LLM CLI 앞단에서 동작하는 CLI 도구입니다.
+            <br className="hidden md:block" />
+            긴 요청을 작업 흐름으로 정리하고, 세션과 실행 경계를 관리해 AI 코딩 워크플로우를 더 안정적으로 만듭니다.
           </motion.p>
 
           <motion.div
@@ -81,14 +75,13 @@ export function HeroSection() {
               Before
             </div>
             <p className="text-left text-xl font-black leading-8 tracking-[-0.03em]">
-              "로그인 코드 찾아보고, 흐름 분석하고, 중복 검증 버그 고치고,
-              테스트 돌리고, 문서도 정리해줘."
+              "로그인 버그 고쳐줘. 테스트도 돌리고, 문서 업데이트에 PR까지 만들어줘."
             </p>
           </LiquidCard>
 
           <LiquidCard className="border-[#00c853]/35 p-5 md:p-6">
             <div className="mb-3 text-sm font-bold text-[#00c853]">
-              After · DeToks가 정리한 작업
+              After · DeToks가 정리한 실행 흐름
             </div>
             <div className="space-y-2">
               {tasks.map((task, index) => (

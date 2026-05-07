@@ -20,11 +20,11 @@ export function QuickStartSection() {
           <h2 className="text-4xl font-black leading-tight tracking-[-0.055em] md:text-5xl">
             설치하고 바로
             <br />
-            써보세요
+            연결해보세요
           </h2>
-          <p className="mt-5 max-w-xl text-base leading-7 text-white/66">
-            DeToks는 복잡한 설정이 아니라, 평소처럼 작성한 요청을 더 명확한 작업
-            흐름으로 바꿔주는 도구입니다.
+          <p className="mt-5 max-w-xl text-base leading-7 text-white/75">
+            기존 LLM CLI 워크플로우를 바꾸지 않아도 됩니다. DeToks를 앞단에 두기만
+            하면 요청이 정리된 채로 에이전트에게 전달됩니다.
           </p>
 
           <div className="mt-7">
@@ -52,21 +52,27 @@ export function QuickStartSection() {
             <Copy className="h-4 w-4 text-white/44" />
           </div>
 
-          <div className="space-y-5 p-5 md:p-6">
+          <div className="space-y-4 p-5 md:p-6">
             <div>
               <p className="mb-2 text-sm font-black text-[#00c853]">Install</p>
               <pre className="code-font overflow-x-auto rounded-2xl border border-white/10 bg-black/30 p-4 text-sm leading-6 text-white">
-                <code>
-                  <span className="text-[#00c853]">$</span> npm install -g detoks
-                </code>
+                <code><span className="text-[#00c853]">$</span> npm install -g @sorlros/detoks{"\n"}<span className="text-[#00c853]">$</span> detoks --help</code>
               </pre>
             </div>
 
             <div>
-              <p className="mb-2 text-sm font-black text-[#00c853]">Run</p>
+              <p className="mb-2 text-sm font-black text-[#00c853]">One-shot</p>
+              <pre className="code-font overflow-x-auto rounded-2xl border border-white/10 bg-black/30 p-4 text-sm leading-6 text-white">
+                <code><span className="text-[#00c853]">$</span> detoks <span className="text-white/70">"summarize the current repo status"</span></code>
+              </pre>
+            </div>
+
+            <div>
+              <p className="mb-2 text-sm font-black text-[#00c853]">REPL / TUI</p>
               <pre className="code-font overflow-x-auto rounded-2xl border border-white/10 bg-black/30 p-4 text-sm leading-6 text-white">
                 <code>
-                  <span className="text-[#00c853]">$</span> detoks "로그인 흐름을 분석하고 중복 검증 버그를 수정한 뒤 테스트까지 실행해줘"
+                  <span className="text-[#00c853]">$</span> detoks repl --adapter codex --execution-mode stub{"\n"}
+                  <span className="text-[#00c853]">$</span> detoks repl --adapter codex --execution-mode stub --tui
                 </code>
               </pre>
             </div>
@@ -74,7 +80,7 @@ export function QuickStartSection() {
             <div className="rounded-2xl border border-[#00c853]/25 bg-[#00c853]/10 p-4">
               <p className="flex items-center gap-2 text-sm font-bold leading-6 text-[#8cffb8]">
                 <Terminal className="h-4 w-4" />
-                DeToks가 요청을 작업 단위로 정리합니다.
+                DeToks가 입력·컨텍스트·세션을 정리한 뒤 LLM CLI에 전달합니다.
               </p>
             </div>
           </div>
