@@ -88,13 +88,27 @@ export default function HowItWorks() {
                 {i < steps.length - 1 && (
                   <div
                     style={{
-                      padding: '0 12px',
-                      color: 'rgba(255,255,255,0.2)',
-                      fontSize: '18px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      padding: '0 10px',
                       flexShrink: 0,
+                      gap: '2px',
                     }}
+                    className="flow-arrow"
                   >
-                    →
+                    <div style={{
+                      width: '28px',
+                      height: '2px',
+                      background: 'linear-gradient(90deg, rgba(255,255,255,0.15), rgba(0,200,83,0.5))',
+                      borderRadius: '1px',
+                    }} />
+                    <div style={{
+                      width: 0,
+                      height: 0,
+                      borderTop: '5px solid transparent',
+                      borderBottom: '5px solid transparent',
+                      borderLeft: '7px solid rgba(0,200,83,0.5)',
+                    }} />
                   </div>
                 )}
               </div>
@@ -132,8 +146,8 @@ export default function HowItWorks() {
           .flow-row > div {
             width: 100%;
           }
-          .flow-row > div > div:last-child {
-            display: none;
+          .flow-arrow {
+            display: none !important;
           }
         }
       `}</style>
