@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Copy, Play, Terminal } from "lucide-react";
 import { LiquidButton } from "./LiquidButton";
-import { LiquidCard } from "./LiquidCard";
+
 
 export function QuickStartSection() {
   return (

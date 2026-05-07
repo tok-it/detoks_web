@@ -1,4 +1,4 @@
-import { Github } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 import { LiquidButton } from "./LiquidButton";
 
 const navItems = [
@@ -33,7 +33,7 @@ export function Header() {
         </nav>
 
         <LiquidButton href="https://github.com" className="h-11 px-5">
-          <Github className="h-4 w-4" />
+          <ExternalLink className="h-4 w-4" />
           GitHub
         </LiquidButton>
       </div>

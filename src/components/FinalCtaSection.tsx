@@ -1,4 +1,4 @@
-import { ArrowRight, Github } from "lucide-react";
+import { ArrowRight, ExternalLink } from "lucide-react";
 import { LiquidButton } from "./LiquidButton";
 import { LiquidCard } from "./LiquidCard";
 
@@ -27,7 +27,7 @@ export function FinalCtaSection() {
             </LiquidButton>
 
             <LiquidButton href="https://github.com">
-              <Github className="h-5 w-5" />
+              <ExternalLink className="h-5 w-5" />
               GitHub에서 보기
             </LiquidButton>
           </div>
