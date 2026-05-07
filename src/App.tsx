@@ -1,6 +1,5 @@
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
-import WhatIs from './components/WhatIs'
 import WhyNeed from './components/WhyNeed'
 import HowItWorks from './components/HowItWorks'
 import QuickStart from './components/QuickStart'
@@ -15,7 +14,6 @@ export default function App() {
       <Navbar />
       <main>
         <Hero />
-        <WhatIs />
         <WhyNeed />
         <HowItWorks />
         <QuickStart />
