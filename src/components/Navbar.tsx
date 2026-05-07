@@ -7,7 +7,7 @@ export default function Navbar() {
         </div>
         <div className="navbar-links">
           <a href="#quickstart">Quick Start</a>
-          <a href="#example">사용 예시</a>
+          <a href="#whyneed">왜 필요한가요?</a>
           <a
             href="https://github.com/detoks/detoks"
             target="_blank"

@@ -79,7 +79,7 @@ function BentoCard({
 
 export default function WhyNeed() {
   return (
-    <section className="section" style={{ background: 'var(--color-bg)' }}>
+    <section className="section" id="whyneed" style={{ background: 'var(--color-bg)' }}>
       <div className="container">
         <div className="section-label">왜 필요한가요?</div>
         <h2 className="section-title">이런 상황, 한 번쯤 겪어보셨죠?</h2>
