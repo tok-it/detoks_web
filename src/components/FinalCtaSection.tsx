@@ -26,7 +26,7 @@ export function FinalCtaSection() {
               <ArrowRight className="h-5 w-5" />
             </LiquidButton>
 
-            <LiquidButton href="https://github.com">
+            <LiquidButton href="https://github.com/tok-it/detoks">
               <ExternalLink className="h-5 w-5" />
               GitHub에서 보기
             </LiquidButton>
