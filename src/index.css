@@ -147,7 +147,6 @@ a {
   opacity: 0.86;
 }
 
-
 /* Liquid Button */
 .liquid-button {
   position: relative;
@@ -203,7 +202,7 @@ a {
 /* Liquid Navigation */
 .liquid-nav {
   border: 1px solid rgba(255, 255, 255, 0.1);
-  background: transparent;
+  background: rgba(255, 255, 255, 0.05);
   box-shadow:
     inset 0 1.5px 0 rgba(255, 255, 255, 0.22),
     inset 0 -1.5px 0 rgba(0, 0, 0, 0.12),
@@ -248,15 +247,21 @@ a {
 
 /* Theme overrides */
 [data-theme="light"] body {
-  background: radial-gradient(circle at 20% 10%, rgba(0, 200, 83, 0.12), transparent 30%),
-    radial-gradient(circle at 85% 20%, rgba(0,0,0,0.04), transparent 24%),
+  background:
+    radial-gradient(circle at 20% 10%, rgba(0, 200, 83, 0.12), transparent 30%),
+    radial-gradient(circle at 85% 20%, rgba(0, 0, 0, 0.04), transparent 24%),
     #e8f2ee;
   color: #1a2628;
 }
 
 [data-theme="dim"] body {
-  background: radial-gradient(circle at 20% 10%, rgba(0, 200, 83, 0.14), transparent 30%),
-    radial-gradient(circle at 85% 20%, rgba(255,255,255,0.06), transparent 24%),
+  background:
+    radial-gradient(circle at 20% 10%, rgba(0, 200, 83, 0.14), transparent 30%),
+    radial-gradient(
+      circle at 85% 20%,
+      rgba(255, 255, 255, 0.06),
+      transparent 24%
+    ),
     radial-gradient(circle at 50% 80%, rgba(0, 200, 83, 0.07), transparent 30%),
     #1a2428;
   color: #c8dbd8;
@@ -350,7 +355,8 @@ a {
   position: relative;
   cursor: pointer;
 
-  background: linear-gradient(
+  background:
+    linear-gradient(
       135deg,
       rgba(255, 255, 255, 0.16),
       rgba(255, 255, 255, 0.04)
@@ -458,7 +464,7 @@ a {
 
 @theme inline {
   --font-heading: var(--font-sans);
-  --font-sans: 'Geist Variable', sans-serif;
+  --font-sans: "Geist Variable", sans-serif;
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -498,36 +504,36 @@ a {
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
   @keyframes scaleToggle {
-  0% {
-    scale: 1 1;
+    0% {
+      scale: 1 1;
     }
-  50% {
-    scale: 1.1 1;
+    50% {
+      scale: 1.1 1;
     }
-  100% {
-    scale: 1 1;
+    100% {
+      scale: 1 1;
     }
   }
   @keyframes scaleToggle2 {
-  0% {
-    scale: 1 1;
+    0% {
+      scale: 1 1;
     }
-  50% {
-    scale: 1.2 1;
+    50% {
+      scale: 1.2 1;
     }
-  100% {
-    scale: 1 1;
+    100% {
+      scale: 1 1;
     }
   }
   @keyframes scaleToggle3 {
-  0% {
-    scale: 1 1;
+    0% {
+      scale: 1 1;
     }
-  50% {
-    scale: 1.1 1;
+    50% {
+      scale: 1.1 1;
     }
-  100% {
-    scale: 1 1;
+    100% {
+      scale: 1 1;
     }
   }
 }
