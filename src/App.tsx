@@ -7,9 +7,9 @@ import { FinalCtaSection } from "./components/FinalCtaSection";
 
 function App() {
   return (
-    <div className="min-h-screen overflow-hidden bg-detoks-bg text-white">
+    <div className="min-h-screen bg-detoks-bg text-white">
       <Header />
-      <main>
+      <main className="snap-container">
         <HeroSection />
         <QuickStartSection />
         <ExplainSection />
