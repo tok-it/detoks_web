@@ -1,3 +1,7 @@
+import FadeIn from './FadeIn'
+import { motion, useInView } from 'framer-motion'
+import { useRef } from 'react'
+
 const targets = [
   {
     icon: '🤖',
@@ -7,7 +11,7 @@ const targets = [
   {
     icon: '📝',
     title: '긴 프롬프트를 자주 쓰는 개발자',
-    desc: '한 번에 많은 걸 맡기는 스타일이라면, 요청이 길어질수록 DeToks의 효과가 더 커집니다.',
+    desc: '요청이 길어질수록 DeToks의 효과가 더 커집니다. 한 번에 많은 걸 맡기는 스타일이라면 필수입니다.',
   },
   {
     icon: '🗂️',
@@ -16,58 +20,54 @@ const targets = [
   },
 ]
 
+function TargetCard({ icon, title, desc, delay }: typeof targets[0] & { delay: number }) {
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: '-40px' })
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 16 }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.45, delay }}
+      className="card"
+      style={{ display: 'flex', gap: '18px', alignItems: 'flex-start' }}
+      whileHover={{ y: -2, boxShadow: '0 6px 24px rgba(0,0,0,0.07)' }}
+    >
+      <div style={{
+        width: '48px', height: '48px',
+        background: 'var(--color-bg)',
+        borderRadius: '10px',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        fontSize: '24px', flexShrink: 0,
+        border: '1px solid var(--color-border)',
+      }}>
+        {icon}
+      </div>
+      <div>
+        <div style={{ fontWeight: 700, fontSize: '15px', color: 'var(--color-dark)', marginBottom: '6px' }}>
+          {title}
+        </div>
+        <div style={{ fontSize: '14px', color: 'var(--color-text-muted)', lineHeight: 1.65 }}>
+          {desc}
+        </div>
+      </div>
+    </motion.div>
+  )
+}
+
 export default function TargetUsers() {
   return (
     <section className="section" style={{ background: 'var(--color-white)' }}>
       <div className="container">
-        <div className="section-label">누구를 위한 도구인가요?</div>
-        <h2 className="section-title">이런 개발자에게 적합합니다</h2>
+        <FadeIn>
+          <div className="section-label">누구를 위한 도구인가요?</div>
+          <h2 className="section-title">이런 개발자에게 적합합니다</h2>
+        </FadeIn>
 
-        <div
-          style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginTop: '8px' }}
-        >
-          {targets.map((t) => (
-            <div
-              key={t.title}
-              className="card"
-              style={{
-                display: 'flex',
-                gap: '20px',
-                alignItems: 'flex-start',
-                transition: 'border-color 0.15s',
-              }}
-            >
-              <div
-                style={{
-                  fontSize: '32px',
-                  flexShrink: 0,
-                  width: '52px',
-                  height: '52px',
-                  background: 'var(--color-bg)',
-                  borderRadius: '10px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}
-              >
-                {t.icon}
-              </div>
-              <div>
-                <div
-                  style={{
-                    fontWeight: 700,
-                    fontSize: '15px',
-                    marginBottom: '6px',
-                    color: 'var(--color-dark)',
-                  }}
-                >
-                  {t.title}
-                </div>
-                <div style={{ fontSize: '14px', color: 'var(--color-text-muted)', lineHeight: 1.65 }}>
-                  {t.desc}
-                </div>
-              </div>
-            </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', marginTop: '8px' }}>
+          {targets.map((t, i) => (
+            <TargetCard key={t.title} {...t} delay={i * 0.1} />
           ))}
         </div>
       </div>
