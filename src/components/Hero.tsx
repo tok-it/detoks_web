@@ -103,8 +103,7 @@ export default function Hero() {
           style={{
             display: 'grid',
             gridTemplateColumns: '1fr 1fr',
-            gap: '12px',
-            maxWidth: '700px',
+            gap: '14px',
             margin: '0 auto',
           }}
           className="hero-mockup-grid"
@@ -113,47 +112,45 @@ export default function Hero() {
           <div
             style={{
               background: 'rgba(255,255,255,0.03)',
-              border: '1px solid rgba(239,68,68,0.25)',
-              borderRadius: '12px',
+              border: '1px solid rgba(239,68,68,0.3)',
+              borderRadius: '14px',
               overflow: 'hidden',
             }}
           >
-            {/* Panel header */}
             <div
               style={{
-                padding: '10px 14px',
-                borderBottom: '1px solid rgba(255,255,255,0.06)',
+                padding: '12px 18px',
+                borderBottom: '1px solid rgba(255,255,255,0.07)',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '8px',
-                background: 'rgba(239,68,68,0.08)',
+                background: 'rgba(239,68,68,0.1)',
               }}
             >
-              <span style={{ fontSize: '10px', fontWeight: 700, color: '#ef4444', fontFamily: 'var(--font-mono)', letterSpacing: '1px' }}>BEFORE</span>
-              <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.25)' }}>DeToks 없이</span>
+              <span style={{ fontSize: '11px', fontWeight: 700, color: '#ef4444', fontFamily: 'var(--font-mono)', letterSpacing: '1px' }}>BEFORE</span>
+              <span style={{ fontSize: '12px', color: 'rgba(255,255,255,0.3)' }}>DeToks 없이</span>
             </div>
-            {/* Content */}
-            <div style={{ padding: '20px 16px' }}>
+            <div style={{ padding: '22px 20px' }}>
               <div
                 style={{
                   fontFamily: 'var(--font-mono)',
-                  fontSize: '13px',
-                  lineHeight: 1.8,
-                  color: 'rgba(255,255,255,0.5)',
-                  background: 'rgba(239,68,68,0.05)',
+                  fontSize: '14px',
+                  lineHeight: 1.85,
+                  color: 'rgba(255,255,255,0.65)',
+                  background: 'rgba(239,68,68,0.06)',
                   borderRadius: '8px',
-                  padding: '14px',
-                  border: '1px solid rgba(239,68,68,0.12)',
+                  padding: '16px',
+                  border: '1px solid rgba(239,68,68,0.15)',
                 }}
               >
                 {beforeTasks.map((line, i) => (
                   <div key={i}>{line}</div>
                 ))}
               </div>
-              <div style={{ marginTop: '14px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
+              <div style={{ marginTop: '16px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
                 {['순서가 불명확', '맥락이 뒤섞임', '누락 가능성'].map((t) => (
-                  <div key={t} style={{ display: 'flex', alignItems: 'center', gap: '7px', fontSize: '12px', color: 'rgba(239,68,68,0.7)' }}>
-                    <span style={{ fontSize: '10px' }}>✕</span> {t}
+                  <div key={t} style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '13px', color: 'rgba(239,68,68,0.8)' }}>
+                    <span style={{ fontSize: '11px', fontWeight: 700 }}>✕</span> {t}
                   </div>
                 ))}
               </div>
@@ -163,41 +160,39 @@ export default function Hero() {
           {/* After Panel */}
           <div
             style={{
-              background: 'rgba(0,200,83,0.04)',
-              border: '1px solid rgba(0,200,83,0.3)',
-              borderRadius: '12px',
+              background: 'rgba(0,200,83,0.05)',
+              border: '1px solid rgba(0,200,83,0.35)',
+              borderRadius: '14px',
               overflow: 'hidden',
-              boxShadow: '0 0 32px rgba(0,200,83,0.07)',
+              boxShadow: '0 0 40px rgba(0,200,83,0.1)',
             }}
           >
-            {/* Panel header */}
             <div
               style={{
-                padding: '10px 14px',
-                borderBottom: '1px solid rgba(0,200,83,0.12)',
+                padding: '12px 18px',
+                borderBottom: '1px solid rgba(0,200,83,0.15)',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '8px',
-                background: 'rgba(0,200,83,0.08)',
+                background: 'rgba(0,200,83,0.1)',
               }}
             >
-              <span style={{ fontSize: '10px', fontWeight: 700, color: 'var(--color-green)', fontFamily: 'var(--font-mono)', letterSpacing: '1px' }}>AFTER</span>
-              <span style={{ fontSize: '11px', color: 'rgba(255,255,255,0.35)' }}>DeToks 적용</span>
+              <span style={{ fontSize: '11px', fontWeight: 700, color: 'var(--color-green)', fontFamily: 'var(--font-mono)', letterSpacing: '1px' }}>AFTER</span>
+              <span style={{ fontSize: '12px', color: 'rgba(255,255,255,0.4)' }}>DeToks 적용</span>
             </div>
-            {/* Content */}
-            <div style={{ padding: '16px' }}>
+            <div style={{ padding: '20px 18px' }}>
               <div
                 style={{
                   fontFamily: 'var(--font-mono)',
-                  fontSize: '11px',
+                  fontSize: '12px',
                   color: 'rgba(0,200,83,0.6)',
-                  marginBottom: '10px',
+                  marginBottom: '12px',
                   letterSpacing: '0.5px',
                 }}
               >
                 # 정리된 작업 흐름
               </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '7px' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                 {afterTasks.map((task, i) => (
                   <motion.div
                     key={task.n}
@@ -207,21 +202,21 @@ export default function Hero() {
                     style={{
                       display: 'flex',
                       alignItems: 'center',
-                      gap: '10px',
-                      padding: '8px 10px',
-                      background: i === 0 ? 'rgba(0,200,83,0.1)' : 'rgba(255,255,255,0.03)',
-                      borderRadius: '6px',
-                      border: i === 0 ? '1px solid rgba(0,200,83,0.2)' : '1px solid rgba(255,255,255,0.05)',
+                      gap: '12px',
+                      padding: '10px 12px',
+                      background: i === 0 ? 'rgba(0,200,83,0.12)' : 'rgba(255,255,255,0.03)',
+                      borderRadius: '8px',
+                      border: i === 0 ? '1px solid rgba(0,200,83,0.25)' : '1px solid rgba(255,255,255,0.06)',
                     }}
                   >
                     <span
                       style={{
-                        width: '18px',
-                        height: '18px',
+                        width: '22px',
+                        height: '22px',
                         borderRadius: '50%',
-                        background: i === 0 ? 'var(--color-green)' : 'rgba(255,255,255,0.1)',
-                        color: i === 0 ? '#000' : 'rgba(255,255,255,0.4)',
-                        fontSize: '10px',
+                        background: i === 0 ? 'var(--color-green)' : 'rgba(255,255,255,0.12)',
+                        color: i === 0 ? '#000' : 'rgba(255,255,255,0.45)',
+                        fontSize: '11px',
                         fontWeight: 700,
                         display: 'flex',
                         alignItems: 'center',
@@ -232,7 +227,7 @@ export default function Hero() {
                     >
                       {task.n}
                     </span>
-                    <span style={{ fontSize: '12px', color: i === 0 ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.55)', fontWeight: i === 0 ? 500 : 400 }}>
+                    <span style={{ fontSize: '14px', color: i === 0 ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.6)', fontWeight: i === 0 ? 600 : 400 }}>
                       {task.text}
                     </span>
                   </motion.div>
@@ -246,7 +241,7 @@ export default function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.4, delay: 0.9 }}
-          style={{ textAlign: 'center', fontSize: '12px', color: 'rgba(255,255,255,0.2)', marginTop: '20px', fontFamily: 'var(--font-mono)' }}
+          style={{ textAlign: 'center', fontSize: '12px', color: 'rgba(255,255,255,0.2)', marginTop: '24px', fontFamily: 'var(--font-mono)' }}
         >
           같은 요청, 더 명확한 실행
         </motion.p>
