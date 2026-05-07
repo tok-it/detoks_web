@@ -1,6 +1,17 @@
+import { useState } from 'react'
 import FadeIn from './FadeIn'
 
+const INSTALL_CMD = 'npm install -g detoks'
+
 export default function CTA() {
+  const [copied, setCopied] = useState(false)
+
+  const handleCopy = async () => {
+    await navigator.clipboard.writeText(INSTALL_CMD)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
+
   return (
     <section
       style={{
@@ -30,23 +41,47 @@ export default function CTA() {
         </FadeIn>
 
         <FadeIn delay={0.1}>
-          {/* Install command display */}
-          <div style={{
-            background: 'var(--color-code-bg)',
-            border: '1px solid rgba(255,255,255,0.08)',
-            borderRadius: '10px',
-            padding: '16px 28px',
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '12px',
-            fontFamily: 'var(--font-mono)',
-            fontSize: '15px',
-            color: '#e8f5e9',
-            marginBottom: '36px',
-          }}>
+          {/* Install command with copy button */}
+          <button
+            onClick={handleCopy}
+            title="클립보드에 복사"
+            style={{
+              background: 'var(--color-code-bg)',
+              border: copied
+                ? '1px solid rgba(0,200,83,0.4)'
+                : '1px solid rgba(255,255,255,0.08)',
+              borderRadius: '10px',
+              padding: '14px 20px 14px 28px',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '16px',
+              fontFamily: 'var(--font-mono)',
+              fontSize: '15px',
+              color: '#e8f5e9',
+              marginBottom: '36px',
+              cursor: 'pointer',
+              transition: 'border-color 0.2s, background 0.2s',
+            }}
+          >
             <span style={{ color: 'var(--color-green)', userSelect: 'none' }}>$</span>
-            <span>npm install -g detoks</span>
-          </div>
+            <span style={{ userSelect: 'all' }}>{INSTALL_CMD}</span>
+            <span
+              style={{
+                marginLeft: '4px',
+                padding: '4px 10px',
+                borderRadius: '6px',
+                background: copied ? 'rgba(0,200,83,0.15)' : 'rgba(255,255,255,0.07)',
+                color: copied ? 'var(--color-green)' : 'rgba(255,255,255,0.4)',
+                fontSize: '12px',
+                fontWeight: 600,
+                transition: 'all 0.2s',
+                whiteSpace: 'nowrap',
+                fontFamily: 'var(--font-sans)',
+              }}
+            >
+              {copied ? '✓ 복사됨' : '복사'}
+            </span>
+          </button>
         </FadeIn>
 
         <FadeIn delay={0.18}>
