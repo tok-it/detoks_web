@@ -1,120 +1,250 @@
-import { motion } from "framer-motion";
-import { ArrowRight, Terminal, Layers, GitBranch } from "lucide-react";
-import { LiquidCard } from "./LiquidCard";
+import { useState, useEffect, useRef } from "react";
+import { motion, useInView } from "framer-motion";
 
-const items = [
-  {
-    icon: GitBranch,
-    title: "입력을 작업 흐름으로 정리",
-    description:
-      "긴 자연어 요청을 실행 가능한 작업 단위로 나눠 AI CLI가 따라가기 쉬운 흐름으로 만듭니다.",
-  },
-  {
-    icon: Layers,
-    title: "컨텍스트와 세션 관리",
-    description:
-      "현재 실행에 필요한 정보만 유지하고, 결과를 세션에 저장해 다음 작업에서 이어갈 수 있게 돕습니다.",
-  },
-  {
-    icon: Terminal,
-    title: "CLI 어댑터 실행",
-    description:
-      "codex, gemini, claude 같은 LLM CLI와 연결되도록 adapter와 subprocess 경계를 분리합니다.",
-  },
+const COMMAND = `detoks "로그인 버그 고쳐줘. 테스트도 돌리고, 문서 업데이트에 PR까지 만들어줘."`;
+const TYPE_SPEED = 28;
+
+const TASKS = [
+  { id: "fix-login-bug",  ctx: "bug context only" },
+  { id: "run-tests",      ctx: "test context only" },
+  { id: "update-docs",    ctx: "docs context only" },
+  { id: "create-pr",      ctx: "PR context only" },
 ];
 
-const features = [
-  { name: "One-shot command", desc: "단일 명령 즉시 실행" },
-  { name: "Text REPL", desc: "텍스트 대화형 인터페이스" },
-  { name: "TUI REPL", desc: "터미널 UI 모드" },
-  { name: "Stub / Real mode", desc: "테스트·실제 실행 분리" },
-  { name: "Session save & resume", desc: "세션 저장 및 재시작" },
-  { name: "Token metrics", desc: "토큰 사용량 추적" },
-  { name: "Adapter boundary", desc: "CLI 어댑터 경계 분리" },
-  { name: "Context / state tracking", desc: "컨텍스트 상태 관리" },
+const STEPS = [
+  {
+    num: "01",
+    title: "한국어를 압축 영문으로",
+    desc: "한국어는 같은 내용을 영어보다 토큰을 더 많이 씁니다. DeToks가 LLM에 보내기 전에 번역·압축합니다.",
+  },
+  {
+    num: "02",
+    title: "작업마다 딱 필요한 맥락만",
+    desc: "요청을 작업 단위로 나눠 각 작업에 꼭 필요한 컨텍스트만 LLM에 전달합니다.",
+  },
+  {
+    num: "03",
+    title: "세션이 이어집니다",
+    desc: "결과를 저장하고 다음 작업에 필요한 부분만 꺼내 씁니다. 다시 붙여넣을 필요 없습니다.",
+  },
 ];
 
 export function ExplainSection() {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: false, margin: "-120px" });
+
+  const [typed, setTyped] = useState("");
+  const [typingDone, setTypingDone] = useState(false);
+  const [show1, setShow1] = useState(false);
+  const [show2, setShow2] = useState(false);
+  const [show3, setShow3] = useState(false);
+
+  useEffect(() => {
+    if (!isInView) {
+      setTyped("");
+      setTypingDone(false);
+      setShow1(false);
+      setShow2(false);
+      setShow3(false);
+      return;
+    }
+
+    let i = 0;
+    const iv = setInterval(() => {
+      i++;
+      setTyped(COMMAND.slice(0, i));
+      if (i >= COMMAND.length) {
+        clearInterval(iv);
+        setTypingDone(true);
+        setTimeout(() => setShow1(true), 300);
+        setTimeout(() => setShow2(true), 1200);
+        setTimeout(() => setShow3(true), 2000);
+      }
+    }, TYPE_SPEED);
+
+    return () => clearInterval(iv);
+  }, [isInView]);
+
+  const prefixLen = "detoks ".length;
+  const typedPrefix = typed.slice(0, prefixLen);
+  const typedArg = typed.slice(prefixLen);
+
   return (
-    <section
-      id="about"
-      className="flex h-screen flex-col justify-center overflow-hidden px-5 py-20 md:px-8"
-    >
-      <div className="mx-auto w-full max-w-7xl">
-        <div className="mx-auto mb-7 max-w-3xl text-center">
+    <section id="about" className="overflow-hidden px-5 py-28 md:px-8">
+      <div className="mx-auto w-full max-w-5xl">
+
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: false, margin: "-80px" }}
+          transition={{ duration: 0.5 }}
+          className="mb-16 text-center"
+        >
           <p className="mb-3 text-sm font-black uppercase tracking-[0.2em] text-[#00c853]">
-            What is DeToks?
+            How it works
           </p>
           <h2 className="text-4xl font-black tracking-[-0.055em] md:text-5xl">
-            DeToks는 LLM CLI 작업 흐름을
-            <br />
-            정리합니다
+            토큰이 줄어드는 이유
           </h2>
-          <p className="mt-4 text-base leading-7 text-white/75">
-            내부 구조를 몰라도 됩니다. DeToks는 사용자 입력과 Codex, Gemini, Claude 같은
-            LLM CLI 사이에서 컨텍스트, 세션, 실행 경계를 정리합니다.
-          </p>
-        </div>
+        </motion.div>
 
-        <div className="grid gap-3 md:grid-cols-3">
-          {items.map((item, index) => {
-            const Icon = item.icon;
-            return (
-              <motion.div
-                key={item.title}
-                initial={{ opacity: 0, y: 18 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.45, delay: index * 0.08 }}
-              >
-                <LiquidCard className="h-full p-5">
-                  <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-2xl border border-[#00c853]/25 bg-[#00c853]/10 text-[#00c853]">
-                    <Icon className="h-5 w-5" />
+        {/* Terminal */}
+        <div
+          ref={ref}
+          className="overflow-hidden rounded-[28px] border border-white/10 bg-[#0a0e14]/85 shadow-[0_32px_80px_-12px_rgba(0,200,83,0.12)] backdrop-blur-xl"
+        >
+          <div className="relative flex items-center border-b border-white/8 bg-white/[0.04] px-5 py-3">
+            <div className="flex gap-1.5">
+              <div className="h-3 w-3 rounded-full bg-[#ff5f57]" />
+              <div className="h-3 w-3 rounded-full bg-[#febc2e]" />
+              <div className="h-3 w-3 rounded-full bg-[#28c840]" />
+            </div>
+            <div className="absolute left-1/2 -translate-x-1/2 flex items-center gap-1.5 font-mono text-xs text-white/25">
+              <span className="text-[#00c853]/40">◆</span>
+              detoks pipeline
+            </div>
+          </div>
+
+          <div className="p-6 font-mono text-sm leading-relaxed md:p-8">
+            {/* Command line */}
+            <div className="flex items-baseline gap-x-1.5">
+              <span className="shrink-0 text-[#00c853]/70">❯</span>
+              <span>
+                <span className="text-white/80">{typedPrefix}</span>
+                <span className="text-[#6dff9f]/70">{typedArg}</span>
+                {!typingDone && (
+                  <motion.span
+                    animate={{ opacity: [1, 0, 1] }}
+                    transition={{ duration: 0.6, repeat: Infinity }}
+                    className="text-white/70"
+                  >
+                    ▋
+                  </motion.span>
+                )}
+              </span>
+            </div>
+
+            {/* ① token compression */}
+            <motion.div
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: show1 ? 1 : 0, y: show1 ? 0 : 6 }}
+              transition={{ duration: 0.35 }}
+              className="mt-6 space-y-3"
+            >
+              <div className="flex items-center gap-3 text-xs">
+                <span className="text-white/15">①</span>
+                <span className="font-bold uppercase tracking-widest text-[#00c853]/50">
+                  token compression
+                </span>
+                <div className="h-px flex-1 bg-white/6" />
+              </div>
+
+              <div className="ml-5 space-y-2">
+                <div className="flex items-center gap-3">
+                  <span className="w-16 text-right text-xs text-white/25">input</span>
+                  <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-white/8">
+                    <motion.div
+                      animate={{ width: show1 ? "100%" : "0%" }}
+                      transition={{ delay: 0.1, duration: 0.5 }}
+                      className="h-full rounded-full bg-red-400/45"
+                    />
                   </div>
-                  <h3 className="text-base font-black">{item.title}</h3>
-                  <p className="mt-2 text-sm leading-6 text-white/72">{item.description}</p>
-                </LiquidCard>
-              </motion.div>
-            );
-          })}
-        </div>
+                  <span className="w-20 text-right text-xs text-white/30 line-through tabular-nums">
+                    847 tok
+                  </span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className="w-16 text-right text-xs text-[#00c853]/55">compiled</span>
+                  <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-white/8">
+                    <motion.div
+                      animate={{ width: show1 ? "22%" : "0%" }}
+                      transition={{ delay: 0.4, duration: 0.5 }}
+                      className="h-full rounded-full bg-[#00c853]"
+                    />
+                  </div>
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: show1 ? 1 : 0 }}
+                    transition={{ delay: 0.75 }}
+                    className="flex w-20 shrink-0 items-center justify-end gap-1.5 whitespace-nowrap"
+                  >
+                    <span className="text-xs font-bold text-[#00c853] tabular-nums">183 tok</span>
+                    <span className="rounded bg-[#00c853]/15 px-1 py-px text-[10px] text-[#00c853]">
+                      -78%
+                    </span>
+                  </motion.div>
+                </div>
+              </div>
+            </motion.div>
 
-        <LiquidCard className="mt-3 p-4">
-          <div className="flex flex-col items-center justify-center gap-3 text-center md:flex-row">
-            <span className="rounded-full border border-white/10 bg-white/[0.06] px-4 py-2 text-sm font-black">
-              Prompt
-            </span>
-            <ArrowRight className="h-4 w-4 text-[#00c853]" />
-            <span className="rounded-full border border-[#00c853]/30 bg-[#00c853]/10 px-4 py-2 text-sm font-black text-[#00c853]">
-              DeToks
-            </span>
-            <ArrowRight className="h-4 w-4 text-[#00c853]" />
-            <span className="rounded-full border border-white/10 bg-white/[0.06] px-4 py-2 text-sm font-black">
-              Codex · Gemini · Claude
-            </span>
-          </div>
-        </LiquidCard>
+            {/* ② context isolation */}
+            <motion.div
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: show2 ? 1 : 0, y: show2 ? 0 : 6 }}
+              transition={{ duration: 0.35 }}
+              className="mt-6 space-y-3"
+            >
+              <div className="flex items-center gap-3 text-xs">
+                <span className="text-white/15">②</span>
+                <span className="font-bold uppercase tracking-widest text-[#00c853]/50">
+                  context isolation
+                </span>
+                <div className="h-px flex-1 bg-white/6" />
+              </div>
 
-        <div className="mt-5">
-          <p className="mb-3 text-center text-xs font-black uppercase tracking-[0.18em] text-white/40">
-            실제로 제공하는 기능
-          </p>
-          <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
-            {features.map((f, index) => (
-              <motion.div
-                key={f.name}
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.35, delay: index * 0.04 }}
-                className="rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3"
+              <div className="ml-5 grid grid-cols-2 gap-2 sm:grid-cols-4">
+                {TASKS.map((task, i) => (
+                  <motion.div
+                    key={task.id}
+                    initial={{ opacity: 0, y: 4 }}
+                    animate={{ opacity: show2 ? 1 : 0, y: show2 ? 0 : 4 }}
+                    transition={{ duration: 0.25, delay: 0.08 * i }}
+                    className="rounded-xl border border-[#00c853]/20 bg-[#00c853]/[0.06] px-3 py-2.5"
+                  >
+                    <div className="text-xs font-bold text-[#6dff9f]/80">{task.id}</div>
+                    <div className="mt-1 text-[10px] text-[#00c853]/45">{task.ctx}</div>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+
+            {/* ③ session saved */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: show3 ? 1 : 0 }}
+              transition={{ duration: 0.35 }}
+              className="mt-6 flex items-center gap-3 border-t border-white/6 pt-4 text-xs"
+            >
+              <span className="text-white/15">③</span>
+              <span className="font-bold uppercase tracking-widest text-[#00c853]/50">
+                session saved
+              </span>
+              <span className="text-white/15">→</span>
+              <span className="text-white/35">.detoks/session.json</span>
+              <motion.span
+                animate={{ opacity: show3 ? [0, 1, 0] : 0 }}
+                transition={{ delay: 0.4, duration: 1.1, repeat: Infinity }}
+                className="ml-auto text-[#00c853]/50"
               >
-                <p className="text-sm font-black text-white">{f.name}</p>
-                <p className="mt-0.5 text-xs text-white/44">{f.desc}</p>
-              </motion.div>
-            ))}
+                █
+              </motion.span>
+            </motion.div>
           </div>
         </div>
+
+        {/* Step labels */}
+        <div className="mt-14 grid gap-8 sm:grid-cols-3">
+          {STEPS.map((s) => (
+            <div key={s.num}>
+              <span className="font-mono text-5xl font-black leading-none text-white/[0.06]">
+                {s.num}
+              </span>
+              <h3 className="mt-1 text-base font-black tracking-[-0.03em]">{s.title}</h3>
+              <p className="mt-2 text-sm leading-6 text-white/40">{s.desc}</p>
+            </div>
+          ))}
+        </div>
+
       </div>
     </section>
   );
