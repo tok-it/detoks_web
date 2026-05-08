@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { motion, useInView } from "framer-motion";
 
 const START_CMD = `detoks repl --adapter codex`;
-const TYPE_SPEED = 38;
+const TYPE_SPEED = 22;
 
 export function ExampleSection() {
   const ref = useRef(null);
@@ -27,13 +27,13 @@ export function ExampleSection() {
       if (i >= START_CMD.length) {
         clearInterval(iv);
         setStartDone(true);
-        setTimeout(() => setPhase(1), 350);   // startup banner
-        setTimeout(() => setPhase(2), 900);   // turn 1 prompt
-        setTimeout(() => setPhase(3), 1400);  // compiling + bar
-        setTimeout(() => setPhase(4), 2100);  // task done + saved
-        setTimeout(() => setPhase(5), 2800);  // turn 2 prompt
-        setTimeout(() => setPhase(6), 3300);  // loading ctx + compile + done
-        setTimeout(() => setPhase(7), 4000);  // next prompt cursor
+        setTimeout(() => setPhase(1), 200);   // startup banner
+        setTimeout(() => setPhase(2), 550);   // turn 1 prompt
+        setTimeout(() => setPhase(3), 900);   // compiling + bar
+        setTimeout(() => setPhase(4), 1450);  // task done + saved
+        setTimeout(() => setPhase(5), 1900);  // turn 2 prompt
+        setTimeout(() => setPhase(6), 2250);  // loading ctx + compile + done
+        setTimeout(() => setPhase(7), 2800);  // next prompt cursor
       }
     }, TYPE_SPEED);
 
