@@ -27,13 +27,13 @@ export function ExampleSection() {
       if (i >= START_CMD.length) {
         clearInterval(iv);
         setStartDone(true);
-        setTimeout(() => setPhase(1), 200);   // startup banner
-        setTimeout(() => setPhase(2), 550);   // turn 1 prompt
-        setTimeout(() => setPhase(3), 900);   // compiling + bar
-        setTimeout(() => setPhase(4), 1450);  // task done + saved
-        setTimeout(() => setPhase(5), 1900);  // turn 2 prompt
-        setTimeout(() => setPhase(6), 2250);  // loading ctx + compile + done
-        setTimeout(() => setPhase(7), 2800);  // next prompt cursor
+        setTimeout(() => setPhase(1), 200); // startup banner
+        setTimeout(() => setPhase(2), 550); // turn 1 prompt
+        setTimeout(() => setPhase(3), 900); // compiling + bar
+        setTimeout(() => setPhase(4), 1450); // task done + saved
+        setTimeout(() => setPhase(5), 1900); // turn 2 prompt
+        setTimeout(() => setPhase(6), 2250); // loading ctx + compile + done
+        setTimeout(() => setPhase(7), 2800); // next prompt cursor
       }
     }, TYPE_SPEED);
 
@@ -43,7 +43,6 @@ export function ExampleSection() {
   return (
     <section id="example" className="overflow-hidden px-5 py-28 md:px-8">
       <div className="mx-auto w-full max-w-5xl">
-
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -154,7 +153,7 @@ export function ExampleSection() {
                   transition={{ delay: 0.5 }}
                   className="text-xs font-bold text-[#00c853]"
                 >
-                  -78% tokens
+                  -78% tokens(Compressed by Detoks)
                 </motion.span>
               </div>
             </motion.div>
@@ -206,7 +205,9 @@ export function ExampleSection() {
               className="mt-3 ml-5 space-y-2"
             >
               <div className="flex items-center gap-2 rounded-lg border border-[#00c853]/20 bg-[#00c853]/[0.06] px-3 py-2 text-xs">
-                <span className="text-[#00c853]/70 font-bold">loading context</span>
+                <span className="text-[#00c853]/70 font-bold">
+                  loading context
+                </span>
                 <span className="text-white/15">·</span>
                 <span className="text-white/45">fix-login-bug result</span>
                 <span className="ml-auto rounded bg-[#00c853]/15 px-1.5 py-px text-[10px] text-[#00c853]">
@@ -262,7 +263,6 @@ export function ExampleSection() {
             </motion.div>
           </div>
         </div>
-
       </div>
     </section>
   );
