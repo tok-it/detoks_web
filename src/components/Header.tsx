@@ -1,4 +1,5 @@
 import { ExternalLink } from "lucide-react";
+import { Link } from "react-router-dom";
 import { LiquidButton } from "./LiquidButton";
 import { LiquidNavSwitcher } from "./ui/liquid-nav-switcher";
 
@@ -20,6 +21,12 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-3">
+          <Link
+            to="/docs"
+            className="liquid-nav-link hidden md:flex items-center px-4 py-2 text-sm font-semibold text-white/70 hover:text-white transition-colors"
+          >
+            Docs
+          </Link>
           <LiquidButton
             href="https://github.com/tok-it/detoks"
             className="h-11 px-5"
