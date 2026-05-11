@@ -49,7 +49,7 @@ function TableOfContents() {
   if (items.length === 0) return null;
 
   return (
-    <div className="hidden xl:block fixed right-6 top-24 w-52">
+    <div className="hidden 2xl:block fixed right-6 top-24 w-52">
       <p className="text-[11px] font-semibold uppercase tracking-widest text-white/35 mb-3">
         이 페이지에서
       </p>
@@ -211,7 +211,7 @@ export function DocsLayout({ children }: Props) {
         </header>
 
         {/* Content */}
-        <main className="max-w-3xl mx-auto px-6 pt-10 pb-28 xl:pr-64">
+        <main className="max-w-3xl mx-auto px-6 pt-10 pb-28 2xl:pr-56">
           <div className="doc-content">{children}</div>
         </main>
       </div>

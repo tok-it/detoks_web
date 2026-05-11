@@ -22,14 +22,22 @@ export function Overview() {
       </p>
       <pre>
         <code>{`UserRequest
-    ↓ Prompt Compiler       — 입력 정규화, 한국어→영어 번역, 압축
-    ↓ Translation Guardrails — 보호된 용어 번역 검증
-    ↓ Request Analyzer      — 요청을 8가지 타입으로 분류
-    ↓ Task Graph Builder    — 다단계 작업을 의존성 그래프로 분해
-    ↓ Context Optimizer     — 중복 제거, 관련 파일만 선택
-    ↓ Executor              — LLM 어댑터를 통한 추론 실행
-    ↓ Output Processor      — 결과 요약 및 정규화
-    ↓ State Manager         — 세션 상태 저장, 다음 턴에 재사용
+  ↓ Prompt Compiler
+      입력 정규화, 한국어→영어 번역, 압축
+  ↓ Translation Guardrails
+      보호된 용어 번역 검증 (최대 5회 재시도)
+  ↓ Request Analyzer
+      요청을 8가지 타입으로 분류
+  ↓ Task Graph Builder
+      다단계 작업을 의존성 그래프로 분해
+  ↓ Context Optimizer
+      중복 제거, 관련 파일만 선택
+  ↓ Executor
+      LLM 어댑터를 통한 추론 실행
+  ↓ Output Processor
+      결과 요약 및 정규화
+  ↓ State Manager
+      세션 상태 저장, 다음 턴에 재사용
 SessionState`}</code>
       </pre>
 

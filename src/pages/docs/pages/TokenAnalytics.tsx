@@ -29,8 +29,8 @@ export function TokenAnalytics() {
       <h2 id="stage3">3단계 — Request Analyzer</h2>
       <p>요청을 8가지 표준 타입 중 하나로 분류합니다:</p>
       <pre>
-        <code>{`explore | analyze | create | modify
-validate | execute | document | plan`}</code>
+        <code>{`explore   analyze   create   modify
+validate  execute   document  plan`}</code>
       </pre>
       <p>
         각 타입에 대한 자세한 설명은{" "}
