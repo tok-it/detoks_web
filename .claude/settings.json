@@ -5,7 +5,8 @@
       "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:5174/docs/overview)",
       "Bash(git commit *)",
       "Bash(git add *)",
-      "Bash(git rm *)"
+      "Bash(git rm *)",
+      "WebFetch(domain:api.github.com)"
     ]
   }
 }
