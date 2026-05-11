@@ -1,7 +1,10 @@
 {
   "permissions": {
     "allow": [
-      "WebFetch(domain:silverpalace.elementagames.com)"
+      "WebFetch(domain:silverpalace.elementagames.com)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:5174/docs/overview)",
+      "Bash(git commit *)",
+      "Bash(git add *)"
     ]
   }
 }
