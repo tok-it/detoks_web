@@ -1,85 +1,142 @@
 export function Telemetry() {
   return (
     <>
-      <h1>텔레메트리와 개인정보</h1>
+      <h1>아키텍처</h1>
 
-      <h2 id="what-we-collect">수집하는 데이터</h2>
+      <h2 id="no-telemetry">텔레메트리 없음</h2>
       <p>
-        DeToks는 서비스 개선을 위해 최소한의 익명 사용 데이터를 수집합니다.
-        수집되는 모든 데이터는 개인을 특정할 수 없으며 집계된 형태로만
-        처리됩니다.
+        DeToks는 사용자 데이터나 텔레메트리를 수집하지 않습니다. 엔지니어링
+        가이드라인에 따라 외부 데이터 수집 대신 내부 세션 상태 관리에 집중하도록
+        설계되어 있습니다.
       </p>
+
+      <h2 id="layered-architecture">레이어드 아키텍처</h2>
+      <p>DeToks는 4개의 레이어로 구성됩니다:</p>
+      <table>
+        <thead>
+          <tr>
+            <th>레이어</th>
+            <th>역할</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>CLI Layer</td>
+            <td>사용자 인터페이스, 인터랙티브 명령 환경</td>
+          </tr>
+          <tr>
+            <td>Core Layer</td>
+            <td>
+              8단계 파이프라인 조율, 프롬프트 정제, 번역 검증, 세션 상태 관리
+            </td>
+          </tr>
+          <tr>
+            <td>LLM Layer</td>
+            <td>
+              llama.cpp 서버를 통한 모델 추론, 모델 로딩 및 엔드포인트 설정
+              관리
+            </td>
+          </tr>
+          <tr>
+            <td>Integration Layer</td>
+            <td>외부 CLI 도구 연결, 서브프로세스 실행 관리</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2 id="data-flow">데이터 흐름</h2>
+      <pre>
+        <code>{`UserRequest
+    → CompiledPrompt
+    → Role2PromptInput
+    → AnalyzedRequest
+    → TaskGraph
+    → ExecutionContext
+    → ExecutionResult
+    → SessionState`}</code>
+      </pre>
+
+      <h2 id="design-principles">설계 원칙</h2>
       <ul>
-        <li>명령어 타입 (git, npm 등 — 명령어 내용은 수집하지 않음)</li>
-        <li>토큰 절감 통계 (집계 수치만)</li>
-        <li>오류 발생 유형 (오류 메시지 내용은 수집하지 않음)</li>
-        <li>DeToks 버전 및 운영체제 종류</li>
-        <li>세션 길이 (명령어 내용은 수집하지 않음)</li>
+        <li>
+          <strong>단방향 데이터 흐름</strong> — 예측 가능성을 위해 파이프라인은
+          항상 한 방향으로만 진행
+        </li>
+        <li>
+          <strong>상태 기반 처리 로직</strong> — 모든 처리 결정은 명시적인
+          상태에 의존
+        </li>
+        <li>
+          <strong>AI와 코드의 명확한 분리</strong> — AI 추론 영역과 결정론적
+          코드 영역을 분리
+        </li>
       </ul>
 
-      <h2 id="what-we-dont-collect">수집하지 않는 데이터</h2>
-      <p>
-        다음 데이터는 절대 수집하지 않습니다:
-      </p>
-      <ul>
-        <li>실제 명령어 내용 또는 인자</li>
-        <li>파일 경로 또는 파일명</li>
-        <li>코드 내용 또는 출력 텍스트</li>
-        <li>IP 주소 또는 위치 정보</li>
-        <li>이름, 이메일 등 개인 식별 정보</li>
-        <li>Claude에게 전달되는 프롬프트 내용</li>
-      </ul>
+      <h2 id="role-based-ownership">역할 기반 소유권</h2>
+      <p>파이프라인 책임은 역할별로 명확히 구분됩니다:</p>
+      <table>
+        <thead>
+          <tr>
+            <th>역할</th>
+            <th>담당 단계</th>
+            <th>책임</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Role 1</td>
+            <td>Prompt Engineer</td>
+            <td>입력 정규화, 번역, 프롬프트 압축</td>
+          </tr>
+          <tr>
+            <td>Role 2.1</td>
+            <td>Task Graph</td>
+            <td>요청 분류, 작업 분해, 의존성 관리</td>
+          </tr>
+          <tr>
+            <td>Role 2.2</td>
+            <td>State / Context</td>
+            <td>컨텍스트 최적화, 세션 상태 유지</td>
+          </tr>
+          <tr>
+            <td>Role 3</td>
+            <td>CLI / System</td>
+            <td>LLM 실행, 출력 처리, 서브프로세스 관리</td>
+          </tr>
+        </tbody>
+      </table>
 
-      <h2 id="disable-telemetry">텔레메트리 비활성화</h2>
-      <p>
-        텔레메트리는 언제든지 비활성화할 수 있습니다. 기능에는 아무런 영향이
-        없습니다.
-      </p>
-
-      <h3 id="disable-env">환경 변수로 비활성화</h3>
-      <pre>
-        <code>{`export DETOKS_NO_TELEMETRY=1`}</code>
-      </pre>
-      <p>
-        영구적으로 비활성화하려면 쉘 프로파일에 추가하세요 (
-        <code>~/.zshrc</code>, <code>~/.bashrc</code> 등):
-      </p>
-      <pre>
-        <code>{`echo 'export DETOKS_NO_TELEMETRY=1' >> ~/.zshrc`}</code>
-      </pre>
-
-      <h3 id="disable-config">.detoksrc로 비활성화</h3>
-      <pre>
-        <code>{`{
-  "telemetry": false
-}`}</code>
-      </pre>
-
-      <h2 id="data-retention">데이터 보관 정책</h2>
-      <p>
-        수집된 데이터는 <strong>90일</strong> 후 자동으로 완전 삭제됩니다.
-        그 이전에도 GitHub Issues를 통해 데이터 삭제를 요청할 수 있습니다.
-      </p>
-
-      <h2 id="open-source">오픈소스 투명성</h2>
-      <p>
-        DeToks는 오픈소스입니다. 텔레메트리 수집 코드를 포함한 모든 소스
-        코드를{" "}
-        <a
-          href="https://github.com/tok-it/detoks"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          GitHub에서 직접 확인
-        </a>
-        할 수 있습니다.
-      </p>
-
-      <h2 id="contact">문의</h2>
-      <p>개인정보 관련 문의 사항이 있으시면 아래 이메일로 연락해주세요:</p>
-      <p>
-        <a href="mailto:privacy@tok-it.dev">privacy@tok-it.dev</a>
-      </p>
+      <h2 id="tech-stack">기술 스택</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>항목</th>
+            <th>버전</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>TypeScript</td>
+            <td>5.8.3</td>
+          </tr>
+          <tr>
+            <td>Vitest</td>
+            <td>3.2.4</td>
+          </tr>
+          <tr>
+            <td>tiktoken</td>
+            <td>^1.0.22</td>
+          </tr>
+          <tr>
+            <td>zod</td>
+            <td>4.3.6</td>
+          </tr>
+          <tr>
+            <td>chalk</td>
+            <td>^5.6.2</td>
+          </tr>
+        </tbody>
+      </table>
     </>
   );
 }

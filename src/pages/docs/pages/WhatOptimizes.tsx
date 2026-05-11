@@ -1,141 +1,143 @@
 export function WhatOptimizes() {
   return (
     <>
-      <h1>DeToks가 최적화하는 것</h1>
+      <h1>요청 타입</h1>
 
-      <h2 id="git">Git 명령어</h2>
+      <h2 id="overview">개요</h2>
       <p>
-        DeToks는 가장 자주 사용되는 git 명령어의 출력을 대폭 줄입니다. 실제로
-        필요한 변경 정보만 LLM에 전달합니다.
+        DeToks는 3단계(Request Analyzer)에서 모든 요청을 8가지 표준 타입 중
+        하나로 분류합니다. 타입에 따라 Task Graph 구성 방식, 컨텍스트 최적화
+        전략, 출력 처리 방식이 달라집니다.
       </p>
+
+      <h2 id="explore">
+        <code>explore</code> — 탐색
+      </h2>
+      <p>
+        <strong>질문:</strong> "무엇이 있나요?" / "어디에 있나요?"
+      </p>
+      <p>위치, 참조, 구조, 진입점, 호출 경로, 컨텍스트를 수집합니다.</p>
+      <pre>
+        <code>{`"인증 관련 파일이 어디에 있어?"
+"프로젝트 전체 구조를 파악해줘"`}</code>
+      </pre>
+
+      <h2 id="analyze">
+        <code>analyze</code> — 분석
+      </h2>
+      <p>
+        <strong>질문:</strong> "왜 이런 일이 발생하나요?"
+      </p>
+      <p>원인, 동작, 관계, 영향, 트레이드오프를 해석합니다.</p>
+      <pre>
+        <code>{`"왜 이 함수가 느린 거야?"
+"이 두 컴포넌트의 의존 관계를 분석해줘"`}</code>
+      </pre>
+
+      <h2 id="create">
+        <code>create</code> — 생성
+      </h2>
+      <p>
+        <strong>질문:</strong> "어떤 새로운 결과물을 만들어야 하나요?"
+      </p>
+      <p>새로운 코드, 파일, 테스트, 스키마, 문서를 생성합니다.</p>
+      <pre>
+        <code>{`"JWT 인증 미들웨어를 새로 만들어줘"
+"이 API에 대한 OpenAPI 스키마를 작성해줘"`}</code>
+      </pre>
+
+      <h2 id="modify">
+        <code>modify</code> — 수정
+      </h2>
+      <p>
+        <strong>질문:</strong> "어떤 기존 결과물을 변경해야 하나요?"
+      </p>
+      <p>기존 코드, 파일, 테스트, 설정을 수정합니다.</p>
+      <pre>
+        <code>{`"이 함수를 async/await로 리팩토링해줘"
+"Header 컴포넌트에 Docs 링크를 추가해줘"`}</code>
+      </pre>
+
+      <h2 id="validate">
+        <code>validate</code> — 검증
+      </h2>
+      <p>
+        <strong>질문:</strong> "이것이 올바른가요?"
+      </p>
+      <p>테스트, 타입 검사, 품질 검사를 실행합니다.</p>
+      <pre>
+        <code>{`"현재 코드에 타입 오류가 있는지 확인해줘"
+"테스트를 전부 실행하고 실패 항목을 알려줘"`}</code>
+      </pre>
+
+      <h2 id="execute">
+        <code>execute</code> — 실행
+      </h2>
+      <p>
+        <strong>질문:</strong> "무엇을 실행해야 하나요?"
+      </p>
+      <p>명령어 실행, 프로세스 시작, 빌드, 배포, 트리거 작업을 수행합니다.</p>
+      <pre>
+        <code>{`"프로덕션 빌드를 실행해줘"
+"도커 컨테이너를 재시작해줘"`}</code>
+      </pre>
+
+      <h2 id="document">
+        <code>document</code> — 문서화
+      </h2>
+      <p>
+        <strong>질문:</strong> "이것을 어떻게 설명해야 하나요?"
+      </p>
+      <p>설명, 문서, 리포트를 생성합니다.</p>
+      <pre>
+        <code>{`"이 모듈의 JSDoc을 작성해줘"
+"변경사항에 대한 커밋 메시지를 작성해줘"`}</code>
+      </pre>
+
+      <h2 id="plan">
+        <code>plan</code> — 계획
+      </h2>
+      <p>
+        <strong>질문:</strong> "실행 계획이 무엇인가요?"
+      </p>
+      <p>실행 순서와 작업 의존성을 정의합니다.</p>
+      <pre>
+        <code>{`"이 기능을 구현하는 단계별 계획을 세워줘"
+"마이그레이션 작업 순서를 정리해줘"`}</code>
+      </pre>
+
+      <h2 id="type-impact">타입이 파이프라인에 미치는 영향</h2>
       <table>
         <thead>
           <tr>
-            <th>명령어</th>
-            <th>평균 절감률</th>
-            <th>제거 대상</th>
+            <th>타입</th>
+            <th>컨텍스트 전략</th>
+            <th>출력 처리</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>
-              <code>git status</code>
-            </td>
-            <td>85%</td>
-            <td>힌트 메시지, 색상 코드, 빈 줄</td>
+            <td><code>validate</code></td>
+            <td>엄격한 압축</td>
+            <td>통과/실패 요약</td>
           </tr>
           <tr>
-            <td>
-              <code>git diff</code>
-            </td>
-            <td>70%</td>
-            <td>공백 변경, 바이너리 파일 알림</td>
+            <td><code>create</code> / <code>modify</code></td>
+            <td>상세 컨텍스트 유지</td>
+            <td>파일 변경 문서 포함</td>
           </tr>
           <tr>
-            <td>
-              <code>git log</code>
-            </td>
-            <td>80%</td>
-            <td>커밋 메타데이터 중 불필요한 항목</td>
+            <td><code>analyze</code></td>
+            <td>포괄적인 탐색 결과</td>
+            <td>원인 해석 중심 요약</td>
           </tr>
           <tr>
-            <td>
-              <code>git blame</code>
-            </td>
-            <td>75%</td>
-            <td>날짜 형식, 이메일 주소</td>
-          </tr>
-          <tr>
-            <td>
-              <code>git branch</code>
-            </td>
-            <td>60%</td>
-            <td>원격 브랜치 반복, 색상 코드</td>
+            <td><code>explore</code></td>
+            <td>구조 정보 우선</td>
+            <td>위치/경로 목록</td>
           </tr>
         </tbody>
       </table>
-
-      <h2 id="package-managers">패키지 매니저</h2>
-      <p>
-        npm, pnpm, yarn 실행 시 출력되는 진행 표시줄과 불필요한 경고를
-        제거합니다:
-      </p>
-      <ul>
-        <li>
-          진행 표시줄 (<code>████████ 32%</code>)
-        </li>
-        <li>
-          패키지별 설치 완료 메시지 (<code>added lodash@4.17.21</code>)
-        </li>
-        <li>
-          npm warn... 경고 (보안상 중요한 경고는 유지)
-        </li>
-        <li>감사 결과 상세 내용 (요약만 유지)</li>
-        <li>타임스탬프 및 속도 정보</li>
-      </ul>
-
-      <h3 id="npm-example">예시: npm install 필터링</h3>
-      <pre>
-        <code>{`# 원본 출력 (43줄)
-npm warn deprecated inflight@1.0.6
-npm warn deprecated glob@7.2.3
-...
-added 284 packages, and audited 285 packages in 8s
-
-38 packages are looking for funding
-  run \`npm fund\` for details
-
-found 0 vulnerabilities
-
-# DeToks 필터링 후 (1줄)
-설치 완료: 284개 패키지, 취약점 없음`}</code>
-      </pre>
-
-      <h2 id="build-tools">빌드 도구</h2>
-      <p>TypeScript, Vite, Webpack 등의 빌드 출력에서 노이즈를 제거합니다:</p>
-
-      <h3 id="typescript">TypeScript</h3>
-      <ul>
-        <li>개별 파일 처리 진행 상황</li>
-        <li>타임스탬프 메시지</li>
-        <li>중복 경로 표시</li>
-      </ul>
-
-      <h3 id="vite">Vite</h3>
-      <ul>
-        <li>모듈 트리 전체 목록 (요약으로 대체)</li>
-        <li>청크 생성 진행 표시</li>
-        <li>불필요한 경고 메시지</li>
-      </ul>
-
-      <h2 id="test-runners">테스트 러너</h2>
-      <p>Jest, Vitest 등의 테스트 출력을 최적화합니다:</p>
-      <ul>
-        <li>각 테스트 케이스 통과 메시지 (요약으로 대체)</li>
-        <li>
-          커버리지 상세 보고서 (최종 퍼센트만 유지)
-        </li>
-        <li>워처 모드 안내 메시지</li>
-      </ul>
-
-      <h3 id="test-example">예시: Vitest 출력 필터링</h3>
-      <pre>
-        <code>{`# 원본 출력 (28줄)
- ✓ src/components/Header.test.tsx (3)
-   ✓ renders logo correctly
-   ✓ shows navigation items
-   ✓ GitHub button links correctly
- ✓ src/utils/format.test.ts (5)
-   ✓ formatDate returns correct string
-   ...
-
- Test Files  8 passed (8)
-      Tests  24 passed (24)
-
-# DeToks 필터링 후 (2줄)
-테스트 통과: 24/24 (파일 8개)
-소요 시간: 1.43s`}</code>
-      </pre>
     </>
   );
 }

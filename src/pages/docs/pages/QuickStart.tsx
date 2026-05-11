@@ -3,99 +3,109 @@ export function QuickStart() {
     <>
       <h1>빠른 시작</h1>
 
-      <h2 id="init">초기화</h2>
-      <p>
-        DeToks를 처음 사용할 때 <code>init</code> 명령어로 프로젝트를
-        설정하세요:
-      </p>
+      <h2 id="help">도움말 확인</h2>
+      <p>사용 가능한 명령어와 옵션 목록을 확인하세요:</p>
       <pre>
-        <code>{`detoks init`}</code>
-      </pre>
-      <p>
-        이 명령어는 현재 프로젝트를 분석하고 최적의 필터 설정을 자동으로
-        구성합니다.
-      </p>
-
-      <h2 id="how-it-works">동작 방식</h2>
-      <p>
-        DeToks는 Claude Code와 함께 사용할 때 완전히 투명하게 동작합니다.
-        평소처럼 Claude Code를 사용하기만 하면 됩니다. DeToks가 백그라운드에서
-        명령어 출력을 자동으로 필터링합니다.
-      </p>
-      <p>
-        예를 들어 Claude Code에서 <code>git status</code>를 실행하면:
-      </p>
-      <pre>
-        <code>{`# 필터링 전 (원본 출력 — 32줄)
-On branch main
-Your branch is up to date with 'origin/main'.
-
-Changes not staged for commit:
-  (use "git add <file>..." to update index)
-  (use "git restore <file>..." to discard changes)
-        modified:   src/App.tsx
-        modified:   src/components/Header.tsx
-        ...20줄 더...
-
-# DeToks 필터링 후 (LLM이 받는 것 — 3줄)
-브랜치: main (최신)
-수정됨: src/App.tsx, src/components/Header.tsx`}</code>
+        <code>{`detoks --help`}</code>
       </pre>
 
-      <h2 id="oneshot">One-shot 모드</h2>
-      <p>단일 작업을 빠르게 실행할 때 사용하세요:</p>
-      <pre>
-        <code>{`detoks run "현재 브랜치의 변경 사항을 요약해줘"`}</code>
-      </pre>
-      <pre>
-        <code>{`detoks run "package.json의 의존성을 최신 버전으로 업데이트해줘"`}</code>
-      </pre>
-
-      <h2 id="repl">REPL 모드</h2>
+      <h2 id="repl-mode">REPL 모드</h2>
       <p>
-        연속적인 작업이나 복잡한 구현에는 REPL 모드를 사용하세요. 세션 전체에
-        걸쳐 컨텍스트가 유지됩니다:
+        REPL 모드는 세션 컨텍스트를 유지하며 여러 요청을 연속으로 처리할 수
+        있는 인터랙티브 모드입니다.
       </p>
       <pre>
-        <code>{`detoks repl`}</code>
+        <code>{`detoks repl --adapter [claude|gemini|codex] --execution-mode [stub|real]`}</code>
       </pre>
+
+      <h3 id="repl-examples">실행 예시</h3>
       <pre>
-        <code>{`DeToks REPL v1.0.0
-컨텍스트 보존 모드 활성화
-(종료: Ctrl+C 또는 'exit')
+        <code>{`# Claude 어댑터로 실제 실행
+detoks repl --adapter claude --execution-mode real
+
+# Codex 어댑터로 테스트 실행 (stub 모드)
+detoks repl --adapter codex --execution-mode stub
+
+# TUI(터미널 UI)와 함께 실행 — 파이프라인 단계별 진행 상황 표시
+detoks repl --adapter codex --execution-mode stub --tui
+
+# Gemini 어댑터로 실제 실행
+detoks repl --adapter gemini --execution-mode real`}</code>
+      </pre>
+
+      <h2 id="single-request">단일 요청 실행</h2>
+      <p>REPL 없이 단일 요청을 바로 실행할 수 있습니다:</p>
+      <pre>
+        <code>{`detoks "현재 레포지토리 상태를 요약해줘"`}</code>
+      </pre>
+
+      <h2 id="execution-modes">실행 모드</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>모드</th>
+            <th>설명</th>
+            <th>용도</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <code>real</code>
+            </td>
+            <td>실제 LLM API를 호출하여 응답을 생성</td>
+            <td>실제 개발 작업</td>
+          </tr>
+          <tr>
+            <td>
+              <code>stub</code>
+            </td>
+            <td>LLM 호출 없이 파이프라인만 실행</td>
+            <td>동작 테스트, 개발 환경 확인</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2 id="tui">TUI 모드</h2>
+      <p>
+        <code>--tui</code> 옵션을 추가하면 터미널 UI가 활성화되어 파이프라인
+        8단계의 진행 상황을 실시간으로 확인할 수 있습니다:
+      </p>
+      <pre>
+        <code>{`detoks repl --adapter claude --execution-mode real --tui`}</code>
+      </pre>
+
+      <h2 id="repl-session-example">REPL 세션 예시</h2>
+      <pre>
+        <code>{`$ detoks repl --adapter claude --execution-mode real
+
+DeToks v0.1.2 — REPL 모드
+어댑터: claude | 실행 모드: real
 
 > 인증 미들웨어를 리팩토링해줘
-> 방금 만든 미들웨어에 테스트도 추가해줘
-> 변경사항을 커밋할 메시지 작성해줘`}</code>
+  [1/8] Prompt Compiler...
+  [2/8] Translation Guardrails...
+  [3/8] Request Analyzer → modify
+  [4/8] Task Graph Builder → 3 tasks
+  ...
+  완료.
+
+> 방금 만든 미들웨어에 단위 테스트도 추가해줘
+  이전 컨텍스트를 참조 중...
+  ...`}</code>
       </pre>
 
-      <h2 id="continue-session">세션 이어가기</h2>
-      <p>이전 REPL 세션을 이어서 계속할 수 있습니다:</p>
-      <pre>
-        <code>{`detoks repl --continue`}</code>
-      </pre>
-      <p>
-        특정 세션을 지정하려면 세션 ID를 사용하세요:
-      </p>
-      <pre>
-        <code>{`detoks repl --session abc123`}</code>
-      </pre>
-
-      <h2 id="tips">팁</h2>
+      <h2 id="next-steps">다음 단계</h2>
       <ul>
         <li>
-          <strong>One-shot 모드</strong>는 단발성 질문이나 짧은 작업에 적합합니다
+          <a href="/docs/supported-agents">지원 LLM</a> — 각 어댑터 상세 정보
         </li>
         <li>
-          <strong>REPL 모드</strong>는 여러 단계로 이루어진 구현 작업에
-          적합합니다
+          <a href="/docs/configuration">설정</a> — .env 환경 변수 구성
         </li>
         <li>
-          토큰 절감 통계는 <code>detoks stats</code>로 언제든 확인 가능합니다
-        </li>
-        <li>
-          <code>detoks discover</code>로 프로젝트에 맞는 최적화 설정을 자동
-          생성할 수 있습니다
+          <a href="/docs/token-analytics">처리 파이프라인</a> — 8단계 파이프라인
+          이해하기
         </li>
       </ul>
     </>

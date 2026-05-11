@@ -5,90 +5,83 @@ export function Installation() {
 
       <h2 id="requirements">요구사항</h2>
       <p>DeToks를 설치하기 전에 다음 환경을 갖추세요:</p>
-      <ul>
-        <li>
-          <strong>Node.js</strong> 18 이상
-        </li>
-        <li>
-          <strong>npm</strong> 9+ 또는 <strong>pnpm</strong> 8+
-        </li>
-        <li>
-          <strong>운영체제</strong> — macOS, Linux, Windows (WSL 권장)
-        </li>
-        <li>
-          <strong>Claude Code</strong> — AI 어시스턴트 통합을 위해 필요
-        </li>
-      </ul>
+      <table>
+        <thead>
+          <tr>
+            <th>항목</th>
+            <th>버전</th>
+            <th>비고</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Node.js</td>
+            <td>
+              <code>{">=24.15.0 <26"}</code>
+            </td>
+            <td>필수</td>
+          </tr>
+          <tr>
+            <td>Python</td>
+            <td>3.13.x</td>
+            <td>로컬 LLM 서버 사용 시 필요 (선택)</td>
+          </tr>
+          <tr>
+            <td>운영체제</td>
+            <td>macOS, Linux</td>
+            <td>Windows는 WSL(Ubuntu) 환경에서만 지원</td>
+          </tr>
+          <tr>
+            <td>LLM CLI</td>
+            <td>—</td>
+            <td>선택한 어댑터의 CLI 도구 (Claude, Gemini, Codex)</td>
+          </tr>
+        </tbody>
+      </table>
 
-      <h2 id="install-npm">npm으로 설치하기</h2>
-      <p>전역 패키지로 설치하는 것을 권장합니다:</p>
+      <h2 id="install-global">전역 설치 (권장)</h2>
       <pre>
-        <code>{`npm install -g detoks`}</code>
+        <code>{`npm install -g @sorlros/detoks`}</code>
       </pre>
-      <p>pnpm을 선호하신다면:</p>
+      <p>설치 후 버전을 확인하세요:</p>
       <pre>
-        <code>{`pnpm add -g detoks`}</code>
-      </pre>
-
-      <h2 id="verify">설치 확인</h2>
-      <p>설치가 완료되면 버전을 확인하세요:</p>
-      <pre>
-        <code>{`detoks --version`}</code>
-      </pre>
-      <pre>
-        <code>{`detoks v1.0.0`}</code>
-      </pre>
-      <p>훅이 올바르게 등록되었는지 확인하려면:</p>
-      <pre>
-        <code>{`detoks check-hooks`}</code>
-      </pre>
-      <pre>
-        <code>{`✓ Claude Code hooks registered
-✓ PreToolUse hook active
-✓ Ready to filter`}</code>
+        <code>{`detoks --help`}</code>
       </pre>
 
-      <h2 id="claude-code-integration">Claude Code 통합</h2>
+      <h2 id="install-npx">설치 없이 실행 (npx)</h2>
+      <p>설치 없이 바로 실행할 수도 있습니다:</p>
+      <pre>
+        <code>{`npx @sorlros/detoks --help`}</code>
+      </pre>
+
+      <h2 id="update">최신 버전으로 업데이트</h2>
+      <pre>
+        <code>{`npm install -g @sorlros/detoks@latest`}</code>
+      </pre>
+
+      <h2 id="windows-wsl">Windows 사용자</h2>
       <p>
-        DeToks는 설치 시 자동으로 Claude Code의 훅을 등록합니다. 수동으로
-        설정할 필요가 없습니다.
-      </p>
-      <p>
-        훅은 <code>~/.claude/settings.json</code>에 저장됩니다. 언제든지 이
-        파일을 열어 설정을 확인하거나 수정할 수 있습니다.
+        Windows 네이티브 환경은 지원되지 않습니다. WSL(Windows Subsystem for
+        Linux) Ubuntu 환경에서 사용하세요.
       </p>
       <pre>
-        <code>{`{
-  "hooks": {
-    "PreToolUse": [
-      {
-        "matcher": "Bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "detoks filter"
-          }
-        ]
-      }
-    ]
-  }
-}`}</code>
+        <code>{`# WSL Ubuntu에서 설치
+wsl
+npm install -g @sorlros/detoks`}</code>
       </pre>
 
-      <h2 id="uninstall">제거하기</h2>
-      <p>DeToks를 제거하려면 먼저 훅을 해제하세요:</p>
-      <pre>
-        <code>{`detoks uninstall`}</code>
-      </pre>
-      <p>그 다음 패키지를 제거합니다:</p>
-      <pre>
-        <code>{`npm uninstall -g detoks`}</code>
-      </pre>
+      <h2 id="local-llm">로컬 LLM 서버 설정 (선택)</h2>
+      <p>
+        로컬 llama.cpp 서버를 사용하려면 Python 3.13.x와 llama-server 바이너리가
+        필요합니다. 설정은 <a href="/docs/configuration">설정 페이지</a>의
+        로컬 LLM 설정 항목을 참고하세요.
+      </p>
 
       <h2 id="next-steps">다음 단계</h2>
       <p>
-        설치가 완료되었습니다. <a href="/docs/quick-start">빠른 시작</a>{" "}
-        가이드로 이동하여 첫 번째 명령어를 실행해보세요.
+        설치가 완료되었습니다.{" "}
+        <a href="/docs/quick-start">빠른 시작</a> 가이드로 이동하여 첫 번째
+        세션을 시작해보세요.
       </p>
     </>
   );

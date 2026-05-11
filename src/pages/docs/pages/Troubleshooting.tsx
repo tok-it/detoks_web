@@ -3,106 +3,105 @@ export function Troubleshooting() {
     <>
       <h1>문제 해결</h1>
 
-      <h2 id="common-issues">일반적인 문제</h2>
-
-      <h3 id="not-filtering">DeToks가 필터링을 적용하지 않음</h3>
+      <h2 id="node-version">Node.js 버전 오류</h2>
       <p>
-        명령어 출력이 줄어들지 않는다면 다음 순서로 확인하세요:
+        DeToks는 Node.js <code>{">=24.15.0 <26"}</code>을 요구합니다. 버전이
+        맞지 않으면 설치 또는 실행 시 오류가 발생합니다.
+      </p>
+      <pre>
+        <code>{`node --version   # v24.x.x 이상인지 확인`}</code>
+      </pre>
+      <p>nvm을 사용한다면:</p>
+      <pre>
+        <code>{`nvm install 24
+nvm use 24`}</code>
+      </pre>
+
+      <h2 id="command-not-found">
+        <code>detoks</code> 명령어를 찾을 수 없음
+      </h2>
+      <p>전역 설치 후에도 명령어가 인식되지 않는 경우:</p>
+      <pre>
+        <code>{`# npm 전역 경로 확인
+npm config get prefix
+
+# PATH에 추가되어 있는지 확인
+echo $PATH
+
+# 경로 추가 예시 (~/.zshrc 또는 ~/.bashrc)
+export PATH="$(npm config get prefix)/bin:$PATH"`}</code>
+      </pre>
+      <p>
+        또는 설치 없이 <code>npx</code>로 실행하세요:
+      </p>
+      <pre>
+        <code>{`npx @sorlros/detoks --help`}</code>
+      </pre>
+
+      <h2 id="llm-connection">LLM 연결 오류</h2>
+      <p>
+        <code>--execution-mode real</code>로 실행 시 LLM API 연결에 실패하면:
       </p>
       <ol>
+        <li>선택한 어댑터의 CLI 도구가 설치되어 있는지 확인하세요</li>
         <li>
-          설치 확인:
-          <pre>
-            <code>{`detoks --version`}</code>
-          </pre>
+          API 키 또는 인증 설정이 올바른지 확인하세요
         </li>
         <li>
-          훅 등록 확인:
+          <code>--execution-mode stub</code>으로 전환하여 파이프라인 자체가
+          정상 동작하는지 먼저 확인하세요:
           <pre>
-            <code>{`detoks check-hooks`}</code>
-          </pre>
-        </li>
-        <li>
-          Claude Code 설정 파일 직접 확인:
-          <pre>
-            <code>{`cat ~/.claude/settings.json`}</code>
-          </pre>
-          <code>PreToolUse</code> 훅이 있는지 검토하세요.
-        </li>
-        <li>
-          훅을 수동으로 재등록:
-          <pre>
-            <code>{`detoks install-hooks`}</code>
+            <code>{`detoks repl --adapter claude --execution-mode stub`}</code>
           </pre>
         </li>
       </ol>
 
-      <h3 id="too-much-filtered">너무 많은 정보가 필터링됨</h3>
+      <h2 id="local-llm-startup">로컬 LLM 서버 시작 실패</h2>
       <p>
-        중요한 정보가 사라지는 경우, <code>maxLines</code> 값을 높이거나 특정
-        필터를 비활성화하세요:
+        로컬 llama.cpp 서버를 사용하는 경우 다음을 확인하세요:
       </p>
-      <pre>
-        <code>{`{
-  "maxLines": 100,
-  "filters": {
-    "npm": false
-  }
-}`}</code>
-      </pre>
-      <p>
-        특정 명령어의 필터링만 임시로 비활성화하려면:
-      </p>
-      <pre>
-        <code>{`DETOKS_DISABLE=1 npm install`}</code>
-      </pre>
+      <ul>
+        <li>
+          Python 3.13.x가 설치되어 있고 <code>KOMPRESS_PYTHON_BIN</code> 경로가
+          올바른지 확인
+        </li>
+        <li>
+          <code>LOCAL_LLM_SERVER_BINARY</code> 경로에 llama-server 바이너리가
+          존재하는지 확인
+        </li>
+        <li>
+          <code>LOCAL_LLM_SERVER_PORT</code>가 이미 사용 중이지 않은지 확인:
+          <pre>
+            <code>{`lsof -i :12345`}</code>
+          </pre>
+        </li>
+        <li>
+          <code>LOCAL_LLM_STARTUP_TIMEOUT</code> 값을 늘려 서버 시작 대기
+          시간을 연장
+        </li>
+      </ul>
 
-      <h3 id="permission-error">권한 오류</h3>
+      <h2 id="windows">Windows 환경</h2>
       <p>
-        macOS/Linux에서 전역 설치 시 권한 오류가 발생하면 npx를 사용하거나
-        npm 전역 경로 권한을 수정하세요:
-      </p>
-      <pre>
-        <code>{`# npx로 실행
-npx detoks --version
-
-# 또는 로컬 사용자 경로에 설치
-npm config set prefix ~/.npm-global
-export PATH=~/.npm-global/bin:$PATH
-npm install -g detoks`}</code>
-      </pre>
-
-      <h3 id="hook-conflict">훅 충돌</h3>
-      <p>
-        다른 Claude Code 훅과 충돌이 발생하면 설정 파일에서 순서를 조정하세요.
-        DeToks 훅은 다른 <code>PreToolUse</code> 훅과 함께 동작할 수 있습니다.
+        Windows 네이티브 환경은 지원되지 않습니다. WSL(Ubuntu)을 사용하세요.
+        WSL 없이 실행하면 예기치 않은 오류가 발생할 수 있습니다.
       </p>
 
       <h2 id="debug-mode">디버그 모드</h2>
       <p>
-        문제를 더 자세히 진단하려면 상세 로그를 활성화하세요:
+        파이프라인 단계별 상세 로그를 보려면 <code>.env</code>에서 파이프라인
+        모드를 변경하세요:
       </p>
       <pre>
-        <code>{`DETOKS_VERBOSE=1 detoks run "git status"`}</code>
+        <code>{`PIPELINE_MODE=debug`}</code>
       </pre>
       <p>
-        로그 파일은 <code>~/.detoks/debug.log</code>에 저장됩니다:
+        또는 <code>--tui</code> 옵션으로 터미널 UI에서 실시간 파이프라인
+        진행 상황을 확인하세요:
       </p>
       <pre>
-        <code>{`tail -f ~/.detoks/debug.log`}</code>
+        <code>{`detoks repl --adapter claude --execution-mode stub --tui`}</code>
       </pre>
-
-      <h2 id="reset">초기화</h2>
-      <p>
-        모든 설정을 초기화하고 다시 시작하려면:
-      </p>
-      <pre>
-        <code>{`detoks reset`}</code>
-      </pre>
-      <p>
-        이 명령어는 <code>~/.detoksrc</code>와 캐시를 삭제하지만 통계 데이터는
-        유지합니다.
-      </p>
 
       <h2 id="get-help">지원 받기</h2>
       <p>
@@ -118,13 +117,13 @@ npm install -g detoks`}</code>
       </p>
       <ul>
         <li>
-          <code>detoks --version</code> 출력
+          <code>node --version</code> 출력
         </li>
         <li>
-          <code>~/.detoks/debug.log</code> 내용
+          <code>detoks --help</code> 출력
         </li>
-        <li>운영체제 및 Node.js 버전</li>
-        <li>재현 방법</li>
+        <li>오류 메시지 전문</li>
+        <li>운영체제 및 환경 (WSL 여부 포함)</li>
       </ul>
     </>
   );

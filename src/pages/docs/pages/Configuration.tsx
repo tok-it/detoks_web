@@ -3,162 +3,120 @@ export function Configuration() {
     <>
       <h1>설정</h1>
 
-      <h2 id="zero-config">기본 설정</h2>
+      <h2 id="overview">개요</h2>
       <p>
-        DeToks는 설정 없이 즉시 사용할 수 있습니다. 설치하면 기본 필터 규칙이
-        자동으로 적용되어 주요 개발 도구의 출력을 최적화합니다.
-      </p>
-      <p>
-        더 세밀한 제어가 필요하다면 <code>.detoksrc</code> 파일을 통해
-        커스터마이즈할 수 있습니다.
+        DeToks의 모든 설정은 프로젝트 루트의 <code>.env</code> 파일을 통해
+        환경 변수로 구성합니다.
       </p>
 
-      <h2 id="detoksrc">
-        <code>.detoksrc</code> 파일
-      </h2>
-      <p>
-        프로젝트 루트나 홈 디렉토리(<code>~/.detoksrc</code>)에{" "}
-        <code>.detoksrc</code> 파일을 생성하세요. 프로젝트별 설정이 전역 설정보다
-        우선적으로 적용됩니다.
-      </p>
+      <h2 id="local-llm-connection">로컬 LLM 연결 설정</h2>
       <pre>
-        <code>{`{
-  "filters": {
-    "git": true,
-    "npm": true,
-    "build": true,
-    "test": true
-  },
-  "maxLines": 50,
-  "verbose": false,
-  "telemetry": true
-}`}</code>
+        <code>{`LOCAL_LLM_API_BASE=http://localhost:12345/v1
+LOCAL_LLM_API_KEY=example-local-llm-api-key
+LOCAL_LLM_MODEL_NAME=example-model-name`}</code>
       </pre>
 
-      <h3 id="config-options">설정 옵션</h3>
+      <h2 id="local-llm-runtime">로컬 LLM 런타임 설정</h2>
+      <pre>
+        <code>{`LOCAL_LLM_AUTO_START=0
+LOCAL_LLM_SERVER_BINARY=example-llama-server
+LOCAL_LLM_SERVER_HOST=localhost
+LOCAL_LLM_SERVER_PORT=12345
+LOCAL_LLM_GPU_LAYERS=8
+LOCAL_LLM_CONTEXT_SIZE=8192
+LOCAL_LLM_TOP_K=20
+LOCAL_LLM_TOP_P=0.9
+LOCAL_LLM_SLEEP_IDLE_SECONDS=600
+LOCAL_LLM_MAX_TOKENS=256
+LOCAL_LLM_REASONING=off
+LOCAL_LLM_STARTUP_TIMEOUT=300000`}</code>
+      </pre>
+
+      <h2 id="model-source">모델 소스 설정</h2>
+      <p>Hugging Face 레포지토리에서 GGUF 모델을 자동으로 다운로드할 수 있습니다:</p>
+      <pre>
+        <code>{`LOCAL_LLM_HF_REPO=example-user/example-model-repo:main
+LOCAL_LLM_HF_FILE=example-model.gguf
+LOCAL_LLM_MODEL_PATH=   # 선택: 로컬 모델 경로 직접 지정
+LOCAL_LLM_MODEL_URL=    # 선택: 모델 다운로드 URL`}</code>
+      </pre>
+
+      <h2 id="kompress">Kompress 설정</h2>
+      <p>
+        Kompress는 한국어 입력을 영어로 번역하는 내부 모델입니다. Python
+        3.13.x 환경이 필요합니다.
+      </p>
+      <pre>
+        <code>{`KOMPRESS_PYTHON_BIN=python3.11
+KOMPRESS_MODEL_ID=example/kompress-model
+KOMPRESS_STARTUP_TIMEOUT=60000`}</code>
+      </pre>
+
+      <h2 id="pipeline">파이프라인 튜닝</h2>
+      <pre>
+        <code>{`PIPELINE_MODE=debug          # debug | production
+REQUEST_TIMEOUT=15000        # 요청 타임아웃 (밀리초)
+TRANSLATION_MAX_ATTEMPTS=3   # 번역 재시도 최대 횟수
+TEMPERATURE=0.7              # LLM 온도 값`}</code>
+      </pre>
+
+      <h2 id="options-reference">전체 옵션 참조</h2>
       <table>
         <thead>
           <tr>
-            <th>옵션</th>
+            <th>변수</th>
             <th>기본값</th>
             <th>설명</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>
-              <code>filters.git</code>
-            </td>
-            <td>
-              <code>true</code>
-            </td>
-            <td>git 명령어 출력 필터링</td>
+            <td><code>LOCAL_LLM_AUTO_START</code></td>
+            <td><code>0</code></td>
+            <td>llama-server 자동 시작 여부</td>
           </tr>
           <tr>
-            <td>
-              <code>filters.npm</code>
-            </td>
-            <td>
-              <code>true</code>
-            </td>
-            <td>npm/pnpm/yarn 출력 필터링</td>
+            <td><code>LOCAL_LLM_GPU_LAYERS</code></td>
+            <td><code>8</code></td>
+            <td>GPU 레이어 수 (CPU fallback 지원)</td>
           </tr>
           <tr>
-            <td>
-              <code>filters.build</code>
-            </td>
-            <td>
-              <code>true</code>
-            </td>
-            <td>빌드 도구 출력 필터링</td>
+            <td><code>LOCAL_LLM_CONTEXT_SIZE</code></td>
+            <td><code>8192</code></td>
+            <td>컨텍스트 크기 (토큰)</td>
           </tr>
           <tr>
-            <td>
-              <code>filters.test</code>
-            </td>
-            <td>
-              <code>true</code>
-            </td>
-            <td>테스트 러너 출력 필터링</td>
+            <td><code>LOCAL_LLM_MAX_TOKENS</code></td>
+            <td><code>256</code></td>
+            <td>최대 출력 토큰 수</td>
           </tr>
           <tr>
-            <td>
-              <code>maxLines</code>
-            </td>
-            <td>
-              <code>50</code>
-            </td>
-            <td>필터링 후 최대 출력 줄 수</td>
+            <td><code>LOCAL_LLM_SLEEP_IDLE_SECONDS</code></td>
+            <td><code>600</code></td>
+            <td>유휴 시 서버 언로드 대기 시간</td>
           </tr>
           <tr>
-            <td>
-              <code>verbose</code>
-            </td>
-            <td>
-              <code>false</code>
-            </td>
-            <td>필터링 과정 상세 로그 출력</td>
+            <td><code>PIPELINE_MODE</code></td>
+            <td><code>production</code></td>
+            <td>파이프라인 실행 모드</td>
           </tr>
           <tr>
-            <td>
-              <code>telemetry</code>
-            </td>
-            <td>
-              <code>true</code>
-            </td>
-            <td>익명 사용 통계 수집</td>
+            <td><code>REQUEST_TIMEOUT</code></td>
+            <td><code>15000</code></td>
+            <td>요청 타임아웃 (밀리초)</td>
+          </tr>
+          <tr>
+            <td><code>TRANSLATION_MAX_ATTEMPTS</code></td>
+            <td><code>3</code></td>
+            <td>번역 검증 재시도 횟수 (최대 5)</td>
+          </tr>
+          <tr>
+            <td><code>TEMPERATURE</code></td>
+            <td><code>0.7</code></td>
+            <td>LLM 응답 다양성 조절</td>
           </tr>
         </tbody>
       </table>
-
-      <h2 id="env-vars">환경 변수</h2>
-      <p>환경 변수로 설정을 빠르게 재정의할 수 있습니다:</p>
-      <pre>
-        <code>{`# 텔레메트리 비활성화
-export DETOKS_NO_TELEMETRY=1
-
-# 상세 로그 출력
-export DETOKS_VERBOSE=1
-
-# 최대 출력 줄 수 설정
-export DETOKS_MAX_LINES=100
-
-# 모든 필터 비활성화 (디버깅 시 유용)
-export DETOKS_DISABLE=1`}</code>
-      </pre>
-      <p>
-        환경 변수는 <code>.detoksrc</code> 파일 설정보다 우선적으로 적용됩니다.
-      </p>
-
-      <h2 id="custom-filters">커스텀 필터 규칙</h2>
-      <p>
-        특정 명령어에 대해 커스텀 필터 규칙을 정의할 수 있습니다:
-      </p>
-      <pre>
-        <code>{`{
-  "customFilters": [
-    {
-      "pattern": "docker",
-      "removeLines": ["Pulling from", "Pull complete", "Digest:"],
-      "maxLines": 20
-    },
-    {
-      "pattern": "kubectl",
-      "keepOnly": ["NAME", "STATUS", "READY", "RESTARTS"]
-    }
-  ]
-}`}</code>
-      </pre>
-
-      <h2 id="validate">설정 검증</h2>
-      <p>설정 파일이 올바른지 확인하려면:</p>
-      <pre>
-        <code>{`detoks config validate`}</code>
-      </pre>
-      <p>현재 적용된 설정을 확인하려면:</p>
-      <pre>
-        <code>{`detoks config show`}</code>
-      </pre>
     </>
   );
 }
