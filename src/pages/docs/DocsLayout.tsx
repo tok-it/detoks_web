@@ -211,7 +211,7 @@ export function DocsLayout({ children }: Props) {
         </header>
 
         {/* Content */}
-        <main className="max-w-3xl mx-auto px-6 pt-10 pb-28 2xl:pr-56">
+        <main className="max-w-4xl mx-auto px-6 pt-10 pb-28 2xl:pr-60">
           <div className="doc-content">{children}</div>
         </main>
       </div>

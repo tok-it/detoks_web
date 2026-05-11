@@ -15,7 +15,8 @@ export function QuickStart() {
         있는 인터랙티브 모드입니다.
       </p>
       <pre>
-        <code>{`detoks repl --adapter [claude|gemini|codex] --execution-mode [stub|real]`}</code>
+        <code>{`detoks repl --adapter [claude|gemini|codex] \
+            --execution-mode [stub|real]`}</code>
       </pre>
 
       <h3 id="repl-examples">실행 예시</h3>
